@@ -46,7 +46,7 @@ SELECT S.SupplierID, S.SupplierName
 FROM Purchasing.Suppliers S
 LEFT JOIN Purchasing.PurchaseOrders P
 ON S.SupplierID = P.SupplierID
-Where [PurchaseOrderID] is null
+Where [P.PurchaseOrderID] is null
 
 
 
@@ -85,7 +85,7 @@ SELECT S.OrderID
 	  , CASE 
 		WHEN DATEPART(month, Orderdate) BETWEEN 1 and 4 THEN 'First'
 		WHEN DATEPART(month, Orderdate) BETWEEN 5 and 8 THEN 'Second'
-		WHEN DATEPART(month, Orderdate) BETWEEN 9 and 12 THEN 'Third'
+		ELSE 'Third'
 		END as PartYear
 	  ,CustomerName
 FROM Sales.Orders S
@@ -127,6 +127,8 @@ ON P.DeliveryMethodID = D.DeliveryMethodID
 JOIN Application.People PL
 ON P.ContactPersonID = PL.PersonID
 WHERE ExpectedDeliveryDate BETWEEN '2013-01-01' and '2013-01-31'
+AND   (D.DeliveryMethodName = 'Air Freight'
+	OR D.DeliveryMethodName = 'Refrigerated Air Freight')
 AND P.IsOrderFinalized !=0
 order by ExpectedDeliveryDate
 
@@ -166,7 +168,7 @@ JOIN Sales.Orders O
 ON OL.OrderID = O.OrderID
 JOIN Sales.Customers C
 ON O.CustomerID = C.CustomerID
-Where StockItemName like 'Chocolate frogs 250g'
+Where StockItemName = 'Chocolate frogs 250g'
 
 
 
@@ -183,13 +185,13 @@ Where StockItemName like 'Chocolate frogs 250g'
 
 --TODO: напишите здесь свое решение
 	   
-(Select DISTINCT 
+Select DISTINCT 
 			  DATEPART(month,InvoiceDate) as [Month]
 			 ,DATEPART(yy,InvoiceDate) as [Year]
-			 ,SUM(L.ExtendedPrice) OVER (PARTITION BY    DATEPART(mm,InvoiceDate)
-														,DATEPART(yy,InvoiceDate))as SumSale
-			 ,AVG(L.ExtendedPrice) OVER (PARTITION BY    DATEPART(mm,InvoiceDate)
-														,DATEPART(yy,InvoiceDate))as AvgSale
+			 ,SUM(L.ExtendedPrice) OVER (PARTITION BY    DATEPART(mm,InvoiceDate))as SumSale
+														--,DATEPART(yy,InvoiceDate))as SumSale
+			 ,AVG(L.ExtendedPrice) OVER (PARTITION BY    DATEPART(mm,InvoiceDate)) as AvgSale
+														--,DATEPART(yy,InvoiceDate))as AvgSale
 
 	  FROM   Sales.Invoices I
 	  JOIN Sales.InvoiceLines L    -- ИД Товара и Цена за товар
@@ -216,13 +218,13 @@ Having (I.InvoiceDate) BETWEEN '2013-01-01' and '2013-01-31'
 	SELECT  DISTINCT 
 			   DATEPART(mm,InvoiceDate) as [Month]
 			   ,DATEPART(yy,InvoiceDate) as [Year]
-			   ,SUM(L.ExtendedPrice) OVER (PARTITION BY    DATEPART(mm,InvoiceDate)
-														  ,DATEPART(yy,InvoiceDate))as SumSale
+			   ,SUM(L.ExtendedPrice) OVER (PARTITION BY    DATEPART(mm,InvoiceDate)) as SumScale
+														 -- ,DATEPART(yy,InvoiceDate)) as SumSale (
 	   	FROM Sales.Invoices I
 				JOIN Sales.InvoiceLines L    -- ИД Товара и Цена за товар
 				ON I.InvoiceID= L.InvoiceID 
 
-		Group by I.InvoiceDate,L.ExtendedPrice,I.InvoiceID
+		Group by I.InvoiceDate,L.ExtendedPrice
 		HAVING (SUM(L.ExtendedPrice))>10000
 			AND DATEPART(yy,InvoiceDate) = '2013'
 			AND DATEPART(mm,InvoiceDate) = '11'
@@ -283,21 +285,5 @@ Having (I.InvoiceDate) BETWEEN '2013-01-01' and '2013-01-31'
 Написать запросы 8-9 так, чтобы если в каком-то месяце не было продаж,
 то этот месяц также отображался бы в результатах, но там были нули.
 */
---Задание 8
-SELECT  DISTINCT 
-			   DATEPART(mm,InvoiceDate) as [Month]
-			   ,DATEPART(yy,InvoiceDate) as [Year]
-			   ,SUM(L.ExtendedPrice) OVER (PARTITION BY    DATEPART(mm,InvoiceDate)
-														  ,DATEPART(yy,InvoiceDate))as SumSale
-	   	FROM Sales.Invoices I
-			LEFT JOIN Sales.InvoiceLines L    -- ИД Товара и Цена за товар
-				ON I.InvoiceID= L.InvoiceID 
 
-
-		Group by I.InvoiceDate,L.ExtendedPrice,I.InvoiceID
-		HAVING (SUM(L.ExtendedPrice))>10000
-			--AND DATEPART(yy,InvoiceDate) = '2013'
-			--AND DATEPART(mm,InvoiceDate) = '11'
-		Order by DATEPART(yy,InvoiceDate) 
-			   ,DATEPART(mm,InvoiceDate) 
 
