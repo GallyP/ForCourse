@@ -171,25 +171,5 @@ ORDER BY c.CustomerID, c.UnitPrice, i.InvoiceDate
 
 
 
---------------------ТЕСТ ----УДАЛИТЬ----
- WITH Cte 
-AS (
-	SELECT DISTINCT 
---	il.StockItemID
-	il.UnitPrice
-	,i.CustomerID
---	,i.InvoiceID
-	FROM Sales.InvoiceLines il
-	JOIN Sales.Invoices i
-	ON i.InvoiceID = il.InvoiceID
-)
 
-SELECT DISTINCT c.CustomerID, o.*
-FROM CTE c
-CROSS APPLY 
-(SELECT TOP 2 c1.UnitPrice  FROM cte c1
- WHERE c1.CustomerID = c.CustomerID
- ORDER BY UnitPrice DESC) O
-
-ORDER BY c.CustomerID
 
