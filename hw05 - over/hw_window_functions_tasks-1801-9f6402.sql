@@ -213,24 +213,27 @@ AS
 		SELECT i.SalespersonPersonID
 		, i.CustomerID
 		, I.InvoiceDate
-		, il.ExtendedPrice
-		, DENSE_RANK() OVER (PARTITION BY i.SalespersonPersonID ORDER BY i.InvoiceDate desc) DRUNK
+		, CT.[TransactionAmount]
+		, i.InvoiceID
+		, i.OrderID
+		, DENSE_RANK() OVER (PARTITION BY i.SalespersonPersonID ORDER BY i.InvoiceDate desc, i.InvoiceID desc) DRUNK
 		FROM Sales.Invoices AS i
-		JOIN Sales.InvoiceLines AS il
-		ON il.InvoiceID = i.InvoiceID
-
+		JOIN [Sales].[CustomerTransactions] CT
+			ON i.InvoiceID = CT.InvoiceID
 )
-SELECT  c.SalespersonPersonID, p.FullName
-, c.CustomerID, [CustomerName]
+SELECT  c.SalespersonPersonID
+, p.FullName
+, c.CustomerID
+, [CustomerName]
 , c.InvoiceDate
-, c.ExtendedPrice
+, c.[TransactionAmount]
 FROM CTE AS c
 JOIN APPLICATION.People AS p
-ON p.[PersonID] = c.SalespersonPersonID
+	ON p.[PersonID] = c.SalespersonPersonID
 JOIN Sales.Customers AS c2
-ON c.CustomerID = c2.CustomerID
+	ON c.CustomerID = c2.CustomerID
 WHERE DRUNK <=1
-ORDER BY c.SalespersonPersonID, c.InvoiceDate DESC
+ORDER BY c.SalespersonPersonID
 
 /*
 6. Выберите по каждому клиенту два самых дорогих товара, которые он покупал.
