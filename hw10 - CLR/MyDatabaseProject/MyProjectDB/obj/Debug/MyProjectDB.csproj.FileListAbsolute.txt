@@ -1,0 +1,2 @@
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyProjectDB\obj\Debug\MyProjectDB.csprojAssemblyReference.cache
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyProjectDB\obj\Debug\MyProjectDB.csproj.CoreCompileInputs.cache

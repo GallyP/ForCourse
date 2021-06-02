@@ -1,0 +1,9 @@
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\bin\Debug\MyDatabaseProject.dacpac
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\bin\Debug\MyDatabaseProject.dll
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\bin\Debug\MyDatabaseProject.pdb
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\obj\Debug\Model.xml
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\obj\Debug\refactor.xml
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\obj\Debug\postdeploy.sql
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\obj\Debug\predeploy.sql
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\obj\Debug\MyDatabaseProject.dll
+C:\Users\ 111\Documents\SQL COURSE\DataBaseProjectVS\MyDatabaseProject\MyDatabaseProject\obj\Debug\MyDatabaseProject.pdb
